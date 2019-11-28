@@ -1,0 +1,30 @@
+Key notes:
+
+1. "0" => the coordinate is blocked. Accessible is marked by "1"
+2. each iteration should call a recursion inside it
+3. see if the room is cleaned at the end
+4. (in the same question you can be asked to find all the possible ways to clean the room)
+
+
+class Solution(object):       
+	def cleanRoom(self, robot):
+		## we will use thee given four APIs
+		def go_back():
+			robot.turnRight()
+			robot.turnRight()
+			robot.move()
+			robot.turnRight()
+			robot.turnRight()
+		def backtrack(cell = (0, 0), d = 0):
+			for i in range(4): ## only four directions possible; Also we don't have any checks for the destination. It's over when it's over
+				new_d = (d + i) %  4 ##<-- check the next directions in 0 -4
+				new_cell = (cell[0] + directions[new_d][0], cell[1] + directions[new_d][1])
+				if new_cell not in visited and robot.move():
+					backtrack(new_cell, new_d)
+					go_back()	
+				robot.turnRight()
+		
+
+	directions = [(-1, 0), (0, 1), (1, 0), (0, -1)] #<-- clockwise directions
+	visited = set()
+	backtrack()
